@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BookClub | About Us</title>
+  <!-- Bootstrap StyleSheet CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTWfspd3yD65VohhpuuCOmLASjC"
+        crossorigin="anonymous">
+</head>
+<body>
+  <!-- Shared Header -->
+  <div th:insert="~{fragments/header :: header}"></div>
+
+  <main class="container py-5">
+    <header class="text-center mb-4">
+      <h1 class="fw-bold">About BookClub</h1>
+      <p class="text-muted">Connecting readers, sharing stories, and building community—one book at a time.</p>
+    </header>
+
+    <!-- Mission -->
+    <section class="mb-4">
+      <h2>Our Mission</h2>
+      <p>
+        BookClub was founded to bring readers together. Our mission is to make reading more
+        social, inclusive, and fun by creating a place where people can share stories, discover
+        new authors, and connect with others.
+      </p>
+    </section>
+
+    <!-- What We Do -->
+    <section class="mb-4">
+      <h2>What We Do</h2>
+      <ul>
+        <li>Create and join clubs organized by genre, author, or theme.</li>
+        <li>Track reading lists and share recommendations with friends.</li>
+        <li>Host discussions, polls, and meetups—online or in person.</li>
+      </ul>
+    </section>
+
+    <!-- Values -->
+    <section class="mb-4">
+      <h2>Our Values</h2>
+      <p>
+        We believe in accessibility, respectful discussion, and lifelong learning. Whether you’re
+        a casual reader or a literature lover, there’s a place for you at BookClub.
+      </p>
+    </section>
+
+    <!-- Team -->
+    <section class="mb-4">
+      <h2>Meet the Team</h2>
+      <p>
+        We’re a small group of readers, designers, and developers who care about thoughtful
+        design and community-driven features. Want to collaborate or share feedback?
+        <a th:href="@{/contact}">Contact us</a>.
+      </p>
+    </section>
+  </main>
+
+  <!-- Shared Footer -->
+  <div th:insert="~{fragments/footer :: footer}"></div>
+
+  <!-- Shared Scripts -->
+  <div th:insert="~{fragments/scriptFooter :: scriptFooter}"></div>
+</body>
+</html>
