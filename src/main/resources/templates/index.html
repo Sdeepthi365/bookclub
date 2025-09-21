@@ -23,6 +23,46 @@
         </div>
       </div>
     </section>
+    
+    
+     <!-- Book list grid -->
+    <div class="album py-3 bg-light">
+      <div class="container">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+
+      
+          <div class="col" th:each="book : ${books}">
+            <div class="card h-100 shadow-sm">
+              <div class="card-body">
+
+                
+                <p class="card-text">
+                  <span th:text="${book.getTitle()}"></span>
+                  <br />
+                  <small class="text-muted">
+                    <em th:text="${book.getDescription()}"></em>
+                  </small>
+                </p>
+
+              </div>
+
+              <div class="card-footer bg-white">
+                
+                <div class="btn-group">
+                  <a href="#"
+                     th:href="@{/{id}(id=${book.getIsbn()})}"
+                     class="btn btn-sm btn-outline-secondary">
+                    View
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /each -->
+
+        </div>
+      </div>
+    </div>
   </main>
   
   <div th:insert="~{fragments/footer :: footer}"></div>

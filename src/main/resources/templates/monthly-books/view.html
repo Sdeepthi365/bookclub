@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Bookclub | Monthly Book</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTWfspd3yD65VohhpuuCOmLASjC"
+        crossorigin="anonymous">
+</head>
+<body>
+  <div th:insert="~{fragments/header :: header}"></div>
+
+  <main class="container py-5">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h3 class="card-title" th:text="${book.getTitle()}">Book Title</h3>
+
+        <p class="card-text mb-1">
+          <strong>ISBN:</strong> <span th:text="${book.getIsbn()}">0000</span>
+        </p>
+        <p class="card-text mb-1">
+          <strong>Pages:</strong> <span th:text="${book.getNumOfPages()}">0</span>
+        </p>
+
+        <p class="card-text">
+          <strong>Description:</strong>
+          <br>
+          <span th:text="${book.getDescription()}">Description here</span>
+        </p>
+
+        <!-- Figure 11.c: iterate over authors -->
+        <p class="mb-1"><strong>Authors:</strong></p>
+        <ul th:each="author : ${book.getAuthors()}">
+          <li th:text="${author}"></li>
+        </ul>
+
+        <br />
+        <!-- Figure 11.b: return link -->
+        <a href="/" th:href="@{/}">Return to books</a>
+      </div>
+    </div>
+  </main>
+
+  <div th:insert="~{fragments/footer :: footer}"></div>
+  <div th:insert="~{fragments/scriptFooter :: scriptFooter}"></div>
+</body>
+</html>
