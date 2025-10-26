@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.bookclub.bookclub.model.Book;
-import com.bookclub.bookclub.service.impl.MemBookDao;
+import com.bookclub.bookclub.service.impl.RestBookDao;
 
 @Controller
 public class HomeController {
@@ -18,7 +18,7 @@ public class HomeController {
     @GetMapping("/")
     public String showHome(Model model) {
     	 // Create a new instance of MemBookDao
-        MemBookDao booksDao = new MemBookDao();
+    	RestBookDao booksDao = new RestBookDao();
 
         // Fetch the list of books
         List<Book> books = booksDao.list();
@@ -43,7 +43,7 @@ public class HomeController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String getMonthlyBook(@PathVariable("id") String id, Model model) {
         // Create a new instance of MemBookDao
-        MemBookDao booksDao = new MemBookDao();
+        RestBookDao booksDao = new RestBookDao();
 
         // Find the book by ISBN
         Book book = booksDao.find(id);
