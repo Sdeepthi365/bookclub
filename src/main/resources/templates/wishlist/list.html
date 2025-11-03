@@ -4,64 +4,65 @@
   <meta charset="UTF-8" />
   <title>My Wishlist</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body class="p-4">
-  <div class="container">
+  <div class="container text-center">
 
-    <h2 class="text-center mb-3">My Wishlist</h2>
+    <p class="text-muted mb-2">
+      Logged in as <strong th:text="${#authentication.name}">user</strong>
+    </p>
 
-    <!-- Button centered like Figure 8 -->
-    <!-- kept raw href with the misspelling from the doc, Thymeleaf fixes it to /wishlist/new -->
-    <div class="text-center mb-3">
-      <a href="/wishlsit/new" th:href="@{/wishlist/new}" class="btn btn-outline-secondary text-center">
-        New Wishlist Item
-      </a>
+    <h2 class="mb-4">My Wishlist</h2>
+
+    <div class="mb-3">
+      <a class="btn btn-outline-primary" th:href="@{/wishlist/new}">New Wishlist Item</a>
     </div>
 
-   <div id="wishlist"></div>
+    <div id="wishlistTable" class="mt-4"></div>
 
   </div>
-  <script>
-  class HttpClient {
-      async get(url, params = "") {
-        url = new URL(url);
-        url.search = new URLSearchParams(params).toString();
-        console.log(url.toString());
-        const res = await fetch(url.toString(), { method: 'GET' });
-        return res.json();
-      }
-    }
-  function buildTable(books) {
+
+  <script th:inline="javascript">
+    /*<![CDATA[*/
+    $(document).ready(function() {
+      fetch('/api/wishlist')
+        .then(response => response.json())
+        .then(data => buildTable(data))
+        .catch(err => console.error('Error loading wishlist:', err));
+    });
+
+    function buildTable(data) {
       let tableString = `
-        <table class="table">
+        <table class="table table-striped text-start mx-auto" style="max-width: 700px;">
           <thead>
-            <tr><th>ISBN</th><th>Title</th><th>Functions</th></tr>
+            <tr>
+              <th>ISBN</th>
+              <th>Title</th>
+              <th>Functions</th>
+            </tr>
           </thead>
-          <tbody>
-      `;
-      for (const b of books) {
+          <tbody>`;
+
+      for (let item of data) {
         tableString += `
           <tr>
-            <td>${b.isbn}</td>
-            <td>${b.title}</td>
+            <td>${item.isbn}</td>
+            <td>${item.title}</td>
             <td>
-              <a href="#">Edit</a> |
-              <a href="#">Delete</a>
+              <a href="/wishlist/${item.id}">Edit</a> |
+              <a href="/wishlist/remove/${item.id}">Delete</a>
             </td>
-          </tr>
-        `;
+          </tr>`;
       }
-      tableString += "</tbody></table>";
-      return tableString;
-    }
 
-  	const http = new HttpClient();
-    http.get('http://localhost:8080/api/wishlist').then(res => {
-    	console.log(res);
-    	document.getElementById("wishlist").innerHTML = buildTable(res);
-    }).catch(e => {
-    	console.log(e);
-    })
+      tableString += `
+          </tbody>
+        </table>`;
+
+      document.getElementById("wishlistTable").innerHTML = tableString;
+    }
+    /*]]>*/
   </script>
 </body>
 </html>

@@ -15,12 +15,13 @@ import ch.qos.logback.core.joran.spi.HttpUtil.RequestMethod;
 
 import com.bookclub.bookclub.model.WishlistItem;
 import com.bookclub.bookclub.service.dao.WishlistDao;
-
+import org.springframework.security.core.Authentication;
 @RestController
 @RequestMapping(path = "api/wishlist", produces = "application/json")
 @CrossOrigin(origins = "*")
 public class WishlistRestController {
-	private WishlistDao wishlistDao = new MongoWishlistDao();
+	private WishlistDao wishlistDao;
+	
 	
 	@Autowired
 	public void setWishlistDao(WishlistDao wishlistDao)
@@ -29,9 +30,12 @@ public class WishlistRestController {
 	}
 	
 	@GetMapping()
-	public List<WishlistItem> showWishlist(){
-		return wishlistDao.list();
+	public List<WishlistItem> showWishlist(Authentication authentication) {
+	    String username = authentication.getName();
+	    System.out.println("Fetching wishlist for user: " + username);
+	    return wishlistDao.list(username);
 	}
+
 	
 	@GetMapping(path = "/{id}")
 	public WishlistItem findById(@PathVariable String id)
