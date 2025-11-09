@@ -31,7 +31,6 @@ public class WishlistItem {
         this.username = username;
 	}
 	
-	  // Getters and Setters
     public String getIsbn() {
         return isbn;
     }
@@ -56,7 +55,6 @@ public class WishlistItem {
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }
     
-    // toString method
     @Override
     public String toString() {
         return "WishlistItem [id=" + id + ", isbn=" + isbn + ", title=" + title +

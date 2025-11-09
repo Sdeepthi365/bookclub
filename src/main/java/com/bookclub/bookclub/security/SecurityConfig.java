@@ -33,17 +33,17 @@ public UserDetailsService userDetailsService(PasswordEncoder encoder) {
 @Bean
 public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
  http
-   .authorizeHttpRequests(auth -> auth
-     .requestMatchers("/login", "/css/**", "/js/**", "/images/**").permitAll()
-     .anyRequest().authenticated()                 // <-- protects "/"
-   )
+ .authorizeHttpRequests(auth -> auth
+         .requestMatchers("/login", "/css/**", "/js/**", "/images/**").permitAll()
+         .requestMatchers("/monthly-books/**").hasRole("ADMIN") 
+         .anyRequest().authenticated()
+     )
    .formLogin(form -> form
      .loginPage("/login")
      .defaultSuccessUrl("/", true)
      .permitAll()
    )
    .logout(l -> l
-     // you’re using a GET link to /logout in the header:
      .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
      .logoutSuccessUrl("/login?logout")
      .permitAll()

@@ -1,7 +1,9 @@
 package com.bookclub.bookclub.web;
 
+import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;                 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,48 +12,61 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.bookclub.bookclub.model.Book;
+import com.bookclub.bookclub.model.BookOfTheMonth;
+import com.bookclub.bookclub.service.dao.BookOfTheMonthDao;
 import com.bookclub.bookclub.service.impl.RestBookDao;
 
 @Controller
 public class HomeController {
 
+	private BookOfTheMonthDao bookOfTheMonthDao;
+	
+	 @Autowired
+	    public void setBookOfTheMonthDao(BookOfTheMonthDao bookOfTheMonthDao) {
+	        this.bookOfTheMonthDao = bookOfTheMonthDao;
+	    }
+	 
     @GetMapping("/")
     public String showHome(Model model) {
-    	 // Create a new instance of MemBookDao
+    	int currentMonth = LocalDate.now().getMonthValue();
+        System.out.println("Current Month: " + currentMonth);
+        List<BookOfTheMonth> monthlyBooks = bookOfTheMonthDao.list(String.valueOf(currentMonth));
+        StringBuilder isbnBuilder = new StringBuilder();
+        isbnBuilder.append("ISBN:");
+        
+        for (BookOfTheMonth bom : monthlyBooks) {
+        	isbnBuilder.append(bom.getIsbn()).append(",");
+        }
+        String isbnString = isbnBuilder.toString().substring(0, isbnBuilder.toString().length()-1);
     	RestBookDao booksDao = new RestBookDao();
 
-        // Fetch the list of books
-        List<Book> books = booksDao.list();
+        List<Book> books = booksDao.list(isbnString);
 
-        // Add the books list to the model with key "books"
         model.addAttribute("books", books);
-
-        // Return index.html view
+        model.addAttribute("month", currentMonth);
+        
         return "index";
     }
 
     @GetMapping("/about")
     public String showAboutUs(Model model) {
-        return "about";      // templates/about.html
+        return "about";      
     }
 
     @GetMapping("/contact")
     public String showContactUs(Model model) {
-        return "contact";    // templates/contact.html
+        return "contact";    
     }
     
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String getMonthlyBook(@PathVariable("id") String id, Model model) {
-        // Create a new instance of MemBookDao
+       
         RestBookDao booksDao = new RestBookDao();
 
-        // Find the book by ISBN
         Book book = booksDao.find(id);
 
-        // Add the book to the model
         model.addAttribute("book", book);
 
-        // Return the view (templates/monthly-books/view.html)
         return "monthly-books/view";
     }
 }

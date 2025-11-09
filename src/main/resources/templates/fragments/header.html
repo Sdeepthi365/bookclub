@@ -37,6 +37,9 @@
     OpenAPI Specification
   </a>
 </li>
+<li class="nav-item" sec:authorize="hasRole('ADMIN')">
+	<a href="/monthly-books" class="nav-link" th:href="@{/monthly-books}">Monthly Books</a>
+</li>
                 </ul>
        			 
       			</div>

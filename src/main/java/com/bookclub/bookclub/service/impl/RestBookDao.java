@@ -41,9 +41,9 @@ public class RestBookDao implements BookDao {
 	    }
 
 	    @Override
-	    public List<Book> list() {
+	    public List<Book> list(String key) {
 	        String isbnString = "ISBN:9780593099322,ISBN:9780261102361,ISBN:9780261102378,ISBN:9780590302715,ISBN:9780316769532";
-	        Object doc = getBooksDoc(isbnString);
+	        Object doc = getBooksDoc(key);
 	        Map<String, Object> bookMap = JsonPath.read(doc, "$");
 	        List<Book> books = new ArrayList<Book>();
 

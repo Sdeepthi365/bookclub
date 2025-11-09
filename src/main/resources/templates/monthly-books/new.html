@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Book of the Month</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+  <div class="container">
+
+    <h2 class="text-center mb-4">Add Book of the Month</h2>
+
+    <form th:action="@{/monthly-books/add}" th:object="${bookOfTheMonth}" method="post" class="mb-3">
+
+      <!-- Month Field -->
+      <div class="mb-3">
+        <label for="month" class="form-label">Month</label>
+        <select id="month" name="month" th:field="*{month}" class="form-select">
+          <option th:each="m : ${months.keySet()}"
+                  th:value="${m}"
+                  th:text="${months.get(m)}"></option>
+        </select>
+      </div>
+
+      <!-- ISBN Field -->
+      <div class="mb-3">
+        <label for="isbn" class="form-label">ISBN</label>
+        <input type="text" id="isbn" th:field="*{isbn}" class="form-control" placeholder="Enter ISBN" />
+        <small th:if="${#fields.hasErrors('isbn')}" class="text-danger" th:errors="*{isbn}"></small>
+      </div>
+
+      <!-- Save Button -->
+      <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+    </form>
+
+    <a th:href="@{/monthly-books/list}">Return to Books of the Month</a>
+
+  </div>
+</body>
+</html>

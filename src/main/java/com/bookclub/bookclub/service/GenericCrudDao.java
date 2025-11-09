@@ -4,8 +4,10 @@ import java.util.List;
 
 public interface GenericCrudDao<T, K> {
     void add(T entity);
-    List<T> list(K key); // Updated
-    T find(K key);
     void update(T entity);
-    boolean remove(K key); // Updated
+    boolean remove(K key); 
+    List<T> list(K key); 
+    T find(K key);
+    
+    
 }
