@@ -26,6 +26,7 @@ public PasswordEncoder passwordEncoder() {
 public UserDetailsService userDetailsService(PasswordEncoder encoder) {
  return new InMemoryUserDetailsManager(
      User.withUsername("user").password(encoder.encode("password")).roles("USER").build(),
+     User.withUsername("testuser01").password(encoder.encode("password01")).roles("USER").build(),
      User.withUsername("adminuser").password(encoder.encode("adminpass")).roles("USER","ADMIN").build()
  );
 }
